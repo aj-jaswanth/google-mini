@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>Google</title>
+<link rel="shortcut icon" href="favicon.jpeg" />
+</head>
+<body background='Background.jpg' link=violet>
+<hr>
+<font size=3 color=violet face=waree >
+<center>
+<br>
+</font>
+<img src=logo.jpg><br><br>
+<input id='b1' type=box size=40><br><br>
+<input id='b2' type=button onClick=google() value=Search>
+<script type=text/javascript>
+function google(){
+document.getElementById('b1').disabled='disabled'
+document.getElementById('b2').disabled='disabled'
+window.location='/'+document.getElementById('b1').value
+}
+</script>
+</center>
+<font face=waree color=violet><h3>Created by UVJ</h3></font>
+<hr>
+</body>
+</html>

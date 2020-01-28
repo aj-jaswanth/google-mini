@@ -1,0 +1,15 @@
+1_Dharmapadhathi.txt
+2_Neethipadhathi.txt
+3_Vivekapadhathi.txt
+4_Kaaryasaadhakapadhathi.txt
+5_Vidhavathpadhathi.txt
+6_Sajjanapadhathi.txt
+7_Swardhapadhathi.txt
+8_aardhapadhathi.txt
+9_Adhikarapadhathi.txt
+10_Murkhapadhathi.txt
+11_Dhurjanapadhathi.txt
+12_Lokaswabavapadhathi.txt
+13_ahimsapadhathi.txt
+14_vedhaanthapadhathi.txt
+15_Sampurna_neethichadrika_Pearlsofwisdom.txt

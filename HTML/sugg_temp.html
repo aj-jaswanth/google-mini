@@ -1,0 +1,14 @@
+<html>
+<head><title>Mini - Google | Search results</title></head>
+<body background='Background.jpg'>
+<hr>
+<img src=logo.jpg height=50 width=200>
+<input id='b1' type=box size=40>
+<input id='b2' type=button onClick=google() value=Search>
+<script type=text/javascript>
+function google(){
+document.getElementById('b1').disabled='disabled'
+document.getElementById('b2').disabled='disabled'
+window.location='/'+document.getElementById('b1').value
+}
+</script>
