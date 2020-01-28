@@ -211,10 +211,10 @@ def display(main):
 			print 'Starting server..'
 			import socket, random
 			s=socket.socket()
-			ip=raw_input("Enter your system ip : ")
+			ip='127.0.0.1'#raw_input("Enter your system ip : ")
 			while True:
 				try:
-					port=input('Enter port : ')
+					port=9091#input('Enter port : ')
 					s.bind((ip,port))
 					break
 				except:
@@ -241,18 +241,32 @@ def display(main):
 					print 'Got connection from : ',addr
 					req=str.split(c.recv(1024))[1]
 					print 'Requested : ',req[1:]
+					c.send("HTTP/1.1 200 OK\r\n")
 					if req[1:]=='logo.jpg':
-						c.send(logo())
+						logoh = logo()
+						c.send("Content-Type: image/jpeg\r\n")
+						c.send("Content-Length: " + str(len(logoh))+"\r\n\r\n")
+						c.send(logoh)
 					elif req[1:]=='':
+						c.send("Content-Type: text/html\r\n")
+						c.send("Content-Length: " + str(len(home))+"\r\n\r\n")
 						c.send(home)
 					elif req[1:]=='favicon.jpeg':
+						c.send("Content-Type: image/jpeg\r\n")
+						c.send("Content-Length: " + str(len(favc))+"\r\n\r\n")
 						c.send(favc)
 					#elif req[1:]=='Background.jpg':
+					#	c.send("Content-Type: image/jpeg\r\n")
+					#	c.send("Content-Length: " + str(len(bg))+"\r\n\r\n")
 					#	c.send(bg)
 					else:
-						c.send(html_gen(req[1:]))
+						hblah = html_gen(req[1:])
+						c.send("Content-Type: text/html\r\n")
+						c.send("Content-Length: " + str(len(hblah))+"\r\n\r\n")
+						c.send(hblah)
 					c.close()
-				except:
+				except Exception as e:
+					print("Exception error: " + str(e))
 					ce=raw_input('\nWhat do you want?\n1.Change interface\n2.Quit!\n ')
 					if ce=='1':
 						switch()
