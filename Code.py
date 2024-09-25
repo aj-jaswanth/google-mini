@@ -10,12 +10,12 @@
 #		Send your suggestions and comments to aj.jaswanth@gmail.com
 import time,os
 os.system('clear')
-print 'Welcome to Google Search Engine'.center(150),'\v'
+print('Welcome to Google Search Engine'.center(150),'\v')
 time.sleep(1)
 os.system('clear')
 #Function to build inverted index.
 def crawler_initiate():
-	print "Initiating Search engine Crawler....".center(150),'\v\v\v\v'
+	print("Initiating Search engine Crawler....".center(150),'\v\v\v\v')
 	f=open('Data/list.txt')
 	w=str.split(f.read())
 	f.close()
@@ -27,22 +27,22 @@ def crawler_initiate():
 				c=c+x
 		return c
 	def uniq_words():
-		print 'Filtering unique words...'.center(150),'\v\v\v\v'
+		print('Filtering unique words...'.center(150),'\v\v\v\v')
 		uq={}
 		for x in w:
-			g=open('Data/'+x)
+			g=open('Data/'+x, 'r', encoding='cp1252')
 			r=g.read()
 			for j in str.split(r):
 				uq[str.lower(tor(j))]=''
 			g.close()
-		print 'Filtering unique words complete!'.center(150),'\v'
-		print '...............Please wait...............'.center(150),'\v\v'
+		print('Filtering unique words complete!'.center(150),'\v')
+		print('...............Please wait...............'.center(150),'\v\v')
 		return uq
 	def parser():
-		print 'Parsing file data...'.center(150),'\v\v\v\v'
+		print('Parsing file data...'.center(150),'\v\v\v\v')
 		parsed={}
 		for x in w:
-			f=open('Data/'+x)
+			f=open('Data/'+x, 'r', encoding='cp1252')
 			parsed[x]=[]
 			for j in f.readlines():
 				s=''
@@ -50,7 +50,7 @@ def crawler_initiate():
 					s=s+' '+str.lower(tor(k))
 				if s.strip(' ')!='':
 					parsed[x].append(s.strip(' '))
-		print 'File data parsed successfully!'.center(150),'\v\v\v\v'
+		print('File data parsed successfully!'.center(150),'\v\v\v\v')
 		return parsed
 	parse=parser()
 	def dream(li,ind):
@@ -61,7 +61,7 @@ def crawler_initiate():
 			else:
 				return li[ind-1],li[ind],li[ind+1] 	
 	def inverted_indexer():
-		print 'Building inverted index....'.center(150),'\v\v\v\v'
+		print('Building inverted index....'.center(150),'\v\v\v\v')
 		main={}
 		for x in uniq_words():
 			main[x]={'total_count':'','sen_count':{}}
@@ -79,7 +79,7 @@ def crawler_initiate():
 						main[x]['sen_count'][y][rt+1]=[freq,dream(parse[y],rt)]
 					rt=rt+1
 				main[x]['total_count']=count
-		print 'Inverted index built successfully'.center(150),'\v\v\v\v'
+		print('Inverted index built successfully'.center(150),'\v\v\v\v')
 		return main
 	return inverted_indexer()
 #This plays important role. This function contains all definitions for terminal and server interfaces. This also builds HTML pages according to the results.
@@ -114,34 +114,33 @@ def display(main):
 		g={}
 		for x in f:
 			g[x]=len(sen[x])
-		print str('Search results for '+n).center(150,'-'),'\v'
+		print(str('Search results for '+n).center(150,'-'),'\v')
 		rank=1
-		print str('Total count : '+str(c)).center(100)
+		print(str('Total count : '+str(c)).center(100))
 		for k in list(reversed(sorted(g.values()))):
 			q=rev(g,k)
-			print q.center(53),'--Rank',rank
+			print(q.center(53),'--Rank',rank)
 			rank+=1
-			print 'line \t  frequency'.center(100)
-			print ' ----     ---------'.center(100)
+			print('line \t  frequency'.center(100))
+			print(' ----     ---------'.center(100))
 			for x in sen_freq[q]:
-				print str(str(x)+'\t'+str(sen_freq[q][x])).center(100)	
+				print(str(str(x)+'\t'+str(sen_freq[q][x])).center(100))
 				#print str('Sentece: \v'+str(sent[q][x],)),'\v'
 	def terminal_suggest(n,main):
-		print 'Suggestions : '
+		print('Suggestions : ')
 		for x in main:
 			if len(x)>len(n):
 				for j in range(len(x)):
 					if x[j:len(n)+j]==n:
-						print x
+						print(x)
 	def terminal():
 		os.system('clear')
-		print 'Welcome to Google Search Engine'.center(150)
-		print '-----------------------------------'.center(150),'\v'
-		#print 'Time took for building inverted index '+str(time.time()-t1)+' Seconds'
+		print('Welcome to Google Search Engine'.center(150))
+		print('-----------------------------------'.center(150),'\v')
 		while True:
 			try:
-				print 'Type q to quit the program!\n'
-				n=str.lower(raw_input('Enter your search string : '))
+				print('Type q to quit the program!\n')
+				n=str.lower(input('Enter your search string : '))
 				os.system('clear')
 				if n=='q':
 					break
@@ -150,7 +149,7 @@ def display(main):
 				else:
 					terminal_suggest(n,main)
 			except:
-				print 'System error! Try again!'
+				print('System error! Try again!')
 	def browser():
 		def server_suggest(n,main):
 			f=open('HTML/sugg_temp.html')
@@ -208,52 +207,53 @@ def display(main):
 			else:
 				return server_suggest(n,main)
 		def server():
-			print 'Starting server..'
+			print('Starting server..')
 			import socket, random
 			s=socket.socket()
-			ip='127.0.0.1'#raw_input("Enter your system ip : ")
+			ip='127.0.0.1'#input("Enter your system ip : ")
 			while True:
 				try:
 					port=9091#input('Enter port : ')
 					s.bind((ip,port))
 					break
-				except:
-					print 'Port already in use!'	
+				except Exception as e:
+					raise e # TODO: investigate 'address already in use' error - https://hea-www.harvard.edu/~fine/Tech/addrinuse.html
+					print('Port already in use!')
 			s.listen(50)
 			def logo():
 				w=os.listdir('Images/Doodles')
-				f=open('Images/Doodles/'+w[random.randint(0,len(w)-1)])
+				f=open('Images/Doodles/'+w[random.randint(0,len(w)-1)], 'rb')
 				return f.read()
 				f.close()
-			print 'Running server on',ip,':',port
+			print('Running server on',ip,':',port)
 			f=open('HTML/home_page.html')
 			home=f.read()
-			fav=open('Images/favicon.jpeg')
+			fav=open('Images/favicon.jpeg', 'rb')
 			favc=fav.read()
 			fav.close()
 			f.close()
-			f=open('Images/Background.jpg')
+			f=open('Images/Background.jpg', 'rb')
 			bg=f.read()
 			f.close()
 			while True:
 				try:
 					c,addr=s.accept()
-					print 'Got connection from : ',addr
-					req=str.split(c.recv(1024))[1]
-					print 'Requested : ',req[1:]
-					c.send("HTTP/1.1 200 OK\r\n")
+					print('Got connection from : ',addr)
+					req=str.split(str(c.recv(1024)))[1]
+					print('Requested : ',req[1:])
+					c.send(bytes("HTTP/1.1 200 OK\r\n", "utf-8"))
 					if req[1:]=='logo.jpg':
 						logoh = logo()
-						c.send("Content-Type: image/jpeg\r\n")
-						c.send("Content-Length: " + str(len(logoh))+"\r\n\r\n")
+						c.send(bytes("Content-Type: image/jpeg\r\n", "utf-8"))
+						c.send(bytes("Content-Length: " + str(len(logoh))+"\r\n\r\n", "utf-8"))
 						c.send(logoh)
 					elif req[1:]=='':
-						c.send("Content-Type: text/html\r\n")
-						c.send("Content-Length: " + str(len(home))+"\r\n\r\n")
-						c.send(home)
+						c.send(bytes("Content-Type: text/html\r\n", "utf-8"))
+						c.send(bytes("Content-Length: " + str(len(home))+"\r\n\r\n", "utf-8"))
+						c.send(bytes(home, "utf-8"))
 					elif req[1:]=='favicon.jpeg':
-						c.send("Content-Type: image/jpeg\r\n")
-						c.send("Content-Length: " + str(len(favc))+"\r\n\r\n")
+						c.send(bytes("Content-Type: image/jpeg\r\n", "utf-8"))
+						c.send(bytes("Content-Length: " + str(len(favc))+"\r\n\r\n", "utf-8"))
 						c.send(favc)
 					#elif req[1:]=='Background.jpg':
 					#	c.send("Content-Type: image/jpeg\r\n")
@@ -261,27 +261,28 @@ def display(main):
 					#	c.send(bg)
 					else:
 						hblah = html_gen(req[1:])
-						c.send("Content-Type: text/html\r\n")
-						c.send("Content-Length: " + str(len(hblah))+"\r\n\r\n")
-						c.send(hblah)
+						c.send(bytes("Content-Type: text/html\r\n", "utf-8"))
+						c.send(bytes("Content-Length: " + str(len(hblah))+"\r\n\r\n", "utf-8"))
+						c.send(bytes(hblah, "utf-8"))
 					c.close()
 				except Exception as e:
 					print("Exception error: " + str(e))
-					ce=raw_input('\nWhat do you want?\n1.Change interface\n2.Quit!\n ')
+					ce=input('\nWhat do you want?\n1.Change interface\n2.Quit!\n ')
 					if ce=='1':
 						switch()
 					else:
 						exit()
 		server()
 	def switch():
-		inf=raw_input('Enter your display interface [1/2] : \n1.Terminal\n2.Start server\n3.Quit!\n')
+		inf=input('Enter your display interface [1/2] : \n1.Terminal\n2.Start server\n3.Quit!\n')
 		if inf=='1':
-			print 'Starting terminal..'		
+			print('Starting terminal..')
 			terminal()
 		elif inf=='2':
 			browser()
 		else:
 			exit()
+	print('Time took for building inverted index '+str(time.time()-t1)+' Seconds')
 	switch()
 t1=time.time()
 display(crawler_initiate())
